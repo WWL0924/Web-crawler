@@ -270,13 +270,13 @@
     async function checkStatus() {
       try {
         const response = await fetch('./douban.txt'); //静态部署
-        const data = await response.json();
+        const movies = await response.json();
 
-        if (data.hasData) {
+        if (movies && movies.length > 0) {
           document.getElementById('statusBar').innerHTML =
-            `当前有 ${data.movieCount} 条数据，最后更新: ${new Date(data.lastUpdated).toLocaleString()}`;
+            `当前有 ${movies.length} 条电影数据`;
         } else {
-          document.getElementById('statusBar').innerHTML = '暂无数据，请先更新数据';
+          document.getElementById('statusBar').innerHTML = '暂无数据';
         }
       } catch (error) {
         document.getElementById('statusBar').innerHTML = '状态检查失败';
@@ -294,6 +294,7 @@
         const response = await fetch('./douban.txt'); //静态部署
         const data = await response.json();
 
+        //这里也要改
         if (data.success) {
           const movies = data.data;
           console.log('从后端获取到的电影数据:', movies);
