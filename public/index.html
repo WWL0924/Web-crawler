@@ -290,7 +290,8 @@
       document.getElementById('error').style.display = 'none';
 
       try {
-        const response = await fetch('/api/movies');
+        // const response = await fetch('/api/movies'); 
+        const response = await fetch('douban.json'); //静态部署
         const data = await response.json();
 
         if (data.success) {

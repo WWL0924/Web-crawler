@@ -1,0 +1,92 @@
+[
+  {
+    "name": "肖申克的救赎",
+    "score": "9.7",
+    "quote": "希望让人自由。",
+    "ranking": "1",
+    "coverUrl": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p480747492.jpg",
+    "otherName": "",
+    "otherNames": "/ 月黑高飞(港)  /  刺激1995(台)"
+  },
+  {
+    "name": "霸王别姬",
+    "score": "9.6",
+    "quote": "风华绝代。",
+    "ranking": "2",
+    "coverUrl": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2911205318.jpg",
+    "otherName": "",
+    "otherNames": "/ 再见，我的妾  /  Farewell My Concubine"
+  },
+  {
+    "name": "泰坦尼克号",
+    "score": "9.5",
+    "quote": "失去的才是永恒的。 ",
+    "ranking": "3",
+    "coverUrl": "https://img9.doubanio.com/view/photo/s_ratio_poster/public/p457760035.jpg",
+    "otherName": "",
+    "otherNames": "/ 铁达尼号(港 / 台)"
+  },
+  {
+    "name": "阿甘正传",
+    "score": "9.5",
+    "quote": "一部美国近现代史。",
+    "ranking": "4",
+    "coverUrl": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2500944103.jpg",
+    "otherName": "",
+    "otherNames": "/ 福雷斯特·冈普"
+  },
+  {
+    "name": "千与千寻",
+    "score": "9.4",
+    "quote": "最好的宫崎骏，最好的久石让。 ",
+    "ranking": "5",
+    "coverUrl": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2557573348.jpg",
+    "otherName": "",
+    "otherNames": "/ 神隐少女(台)  /  千与千寻的神隐"
+  },
+  {
+    "name": "美丽人生",
+    "score": "9.5",
+    "quote": "最美的谎言。",
+    "ranking": "6",
+    "coverUrl": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2578474613.jpg",
+    "otherName": "",
+    "otherNames": "/ 一个快乐的传说(港)  /  Life Is Beautiful"
+  },
+  {
+    "name": "星际穿越",
+    "score": "9.4",
+    "quote": "爱是一种力量，让我们超越时空感知它的存在。",
+    "ranking": "7",
+    "coverUrl": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2614988097.jpg",
+    "otherName": "",
+    "otherNames": "/ 星际启示录(港)  /  星际效应(台)"
+  },
+  {
+    "name": "这个杀手不太冷",
+    "score": "9.4",
+    "quote": "怪蜀黍和小萝莉不得不说的故事。",
+    "ranking": "8",
+    "coverUrl": "https://img9.doubanio.com/view/photo/s_ratio_poster/public/p2913554676.jpg",
+    "otherName": "",
+    "otherNames": "/ 终极追杀令(台)  /  杀手莱昂"
+  },
+  {
+    "name": "盗梦空间",
+    "score": "9.4",
+    "quote": "诺兰给了我们一场无法盗取的梦。",
+    "ranking": "9",
+    "coverUrl": "https://img9.doubanio.com/view/photo/s_ratio_poster/public/p513344864.jpg",
+    "otherName": "",
+    "otherNames": "/ 潜行凶间(港)  /  全面启动(台)"
+  },
+  {
+    "name": "楚门的世界",
+    "score": "9.4",
+    "quote": "如果再也不能见到你，祝你早安，午安，晚安。",
+    "ranking": "10",
+    "coverUrl": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p479682972.jpg",
+    "otherName": "",
+    "otherNames": "/ 真人Show(港)  /  真人戏"
+  }
+]
