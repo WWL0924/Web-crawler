@@ -201,7 +201,7 @@
 
     <div class="controls">
       <button class="btn btn-refresh" onclick="fetchData()">🔄 刷新数据</button>
-      <button class="btn" onclick="window.location.href='/admin.html'">⚙️ 管理页面</button>
+      <button class="btn" onclick="window.location.href='admin.html'">⚙️ 管理页面</button>
     </div>
 
     <div class="status-bar" id="statusBar">
@@ -291,7 +291,7 @@
 
       try {
         // const response = await fetch('/api/movies'); 
-        const response = await fetch('douban.json'); //静态部署
+        const response = await fetch('./douban.json'); //静态部署
         const data = await response.json();
 
         if (data.success) {
