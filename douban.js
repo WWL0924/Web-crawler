@@ -37,6 +37,7 @@ var log = console.log.bind(console)
 
 //url解析成html字符串
 var cachedUrl = (url) => {
+    console.log('1---url解析成html字符串')
     var cacheFile = 'cached_html' + url.split('/')[1] + '.html'
     console.log('文件名', url.split('/')[1])
 
@@ -47,7 +48,8 @@ var cachedUrl = (url) => {
         return data
     } else {
         //访问网页
-        var r = request('GET', url) //同步
+        // var r = request('GET', url) //同步
+        var r = request('GET', url)
         //从响应里取出网页内容 按照utf-8编码转成字符串
         var body = r.getBody('utf-8')
         //把刚下载的 HTML 内容写入本地文件
@@ -58,6 +60,7 @@ var cachedUrl = (url) => {
 
 
 var movieFromDiv = (div) => {
+    console.log('2---div中截取内容')
     var e = cheerio.load(div)
     let movies = []
 
@@ -75,11 +78,9 @@ var movieFromDiv = (div) => {
         // 提取排名
         movie.ranking = $item.find('.pic em').text()
 
-        // 提取标题
+        // 提取标题（只保存中文标题）
         var title = $item.find('.title').first().text()
-        var originalTitle = $item.find('.title').eq(1).text()
-        movie.name = title + (originalTitle ? ' ' + originalTitle : '')
-
+        movie.name = title
         // 提取评分
         movie.score = $item.find('.rating_num').text()
 
@@ -103,6 +104,7 @@ var movieFromDiv = (div) => {
 
 //持久化储存
 var saveMovie = (movies) => {
+    console.log('3---持久化储存')
     // JSON.stringify 第 2 3 个参数配合起来是为了让生成的 json
     // 数据带有缩进的格式，第三个参数表示缩进的空格数
     // 建议当套路来用
@@ -120,11 +122,12 @@ var downloadCovers = (movies) => {
     for (var i = 0; i < movies.length; i++) {
         var m = movies[i]
         var url = m.coverUrl
-        // 保存图片的路径
-        var path = 'covers/' + m.name.split('/')[0] + '.jpg'
+        // var safeName = m.name.replace(/[\\/:*?"<>|]/g, '')
+        var path = 'covers/' + m.name + '.jpg'
         var r = request('GET', url)
         var img = r.getBody()
         fs.writeFileSync(path, img)
+        console.log('保存图片')
     }
 }
 
@@ -143,7 +146,7 @@ var crawlTop10Movies = () => {
     console.log(`成功爬取 ${top10Movies.length} 条电影数据`)
     saveMovie(top10Movies)
     downloadCovers(top10Movies)
-
+    console.log(`成功存入本地`)
     return top10Movies
 }
 

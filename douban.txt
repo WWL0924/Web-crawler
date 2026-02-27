@@ -1,6 +1,6 @@
 [
   {
-    "name": "肖申克的救赎  / The Shawshank Redemption",
+    "name": "肖申克的救赎",
     "score": "9.7",
     "quote": "希望让人自由。",
     "ranking": "1",
@@ -18,7 +18,7 @@
     "otherNames": "/ 再见，我的妾  /  Farewell My Concubine"
   },
   {
-    "name": "泰坦尼克号  / Titanic",
+    "name": "泰坦尼克号",
     "score": "9.5",
     "quote": "失去的才是永恒的。 ",
     "ranking": "3",
@@ -27,7 +27,7 @@
     "otherNames": "/ 铁达尼号(港 / 台)"
   },
   {
-    "name": "阿甘正传  / Forrest Gump",
+    "name": "阿甘正传",
     "score": "9.5",
     "quote": "一部美国近现代史。",
     "ranking": "4",
@@ -36,7 +36,7 @@
     "otherNames": "/ 福雷斯特·冈普"
   },
   {
-    "name": "千与千寻  / 千と千尋の神隠し",
+    "name": "千与千寻",
     "score": "9.4",
     "quote": "最好的宫崎骏，最好的久石让。 ",
     "ranking": "5",
@@ -45,7 +45,7 @@
     "otherNames": "/ 神隐少女(台)  /  千与千寻的神隐"
   },
   {
-    "name": "美丽人生  / La vita è bella",
+    "name": "美丽人生",
     "score": "9.5",
     "quote": "最美的谎言。",
     "ranking": "6",
@@ -54,7 +54,7 @@
     "otherNames": "/ 一个快乐的传说(港)  /  Life Is Beautiful"
   },
   {
-    "name": "星际穿越  / Interstellar",
+    "name": "星际穿越",
     "score": "9.4",
     "quote": "爱是一种力量，让我们超越时空感知它的存在。",
     "ranking": "7",
@@ -63,7 +63,7 @@
     "otherNames": "/ 星际启示录(港)  /  星际效应(台)"
   },
   {
-    "name": "这个杀手不太冷  / Léon",
+    "name": "这个杀手不太冷",
     "score": "9.4",
     "quote": "怪蜀黍和小萝莉不得不说的故事。",
     "ranking": "8",
@@ -72,7 +72,7 @@
     "otherNames": "/ 终极追杀令(台)  /  杀手莱昂"
   },
   {
-    "name": "盗梦空间  / Inception",
+    "name": "盗梦空间",
     "score": "9.4",
     "quote": "诺兰给了我们一场无法盗取的梦。",
     "ranking": "9",
@@ -81,7 +81,7 @@
     "otherNames": "/ 潜行凶间(港)  /  全面启动(台)"
   },
   {
-    "name": "楚门的世界  / The Truman Show",
+    "name": "楚门的世界",
     "score": "9.4",
     "quote": "如果再也不能见到你，祝你早安，午安，晚安。",
     "ranking": "10",
