@@ -4,45 +4,45 @@
     "score": "9.7",
     "quote": "希望让人自由。",
     "ranking": "1",
-    "coverUrl": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p480747492.jpg",
+    "coverUrl": "covers/肖申克的救赎.jpg",
     "otherName": "",
-    "otherNames": "/ 月黑高飞(港)  /  刺激1995(台)"
+    "otherNames": "/\u00a0月黑高飞(港)  /  刺激1995(台)"
   },
   {
     "name": "霸王别姬",
     "score": "9.6",
     "quote": "风华绝代。",
     "ranking": "2",
-    "coverUrl": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2911205318.jpg",
+    "coverUrl": "covers/霸王别姬.jpg",
     "otherName": "",
-    "otherNames": "/ 再见，我的妾  /  Farewell My Concubine"
+    "otherNames": "/\u00a0再见，我的妾  /  Farewell My Concubine"
   },
   {
     "name": "泰坦尼克号",
     "score": "9.5",
     "quote": "失去的才是永恒的。 ",
     "ranking": "3",
-    "coverUrl": "https://img9.doubanio.com/view/photo/s_ratio_poster/public/p457760035.jpg",
+    "coverUrl": "covers/泰坦尼克号.jpg",
     "otherName": "",
-    "otherNames": "/ 铁达尼号(港 / 台)"
+    "otherNames": "/\u00a0铁达尼号(港 / 台)"
   },
   {
     "name": "阿甘正传",
     "score": "9.5",
     "quote": "一部美国近现代史。",
     "ranking": "4",
-    "coverUrl": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2500944103.jpg",
+    "coverUrl": "covers/阿甘正传.jpg",
     "otherName": "",
-    "otherNames": "/ 福雷斯特·冈普"
+    "otherNames": "/\u00a0福雷斯特·冈普"
   },
   {
     "name": "千与千寻",
     "score": "9.4",
     "quote": "最好的宫崎骏，最好的久石让。 ",
     "ranking": "5",
-    "coverUrl": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2557573348.jpg",
+    "coverUrl": "covers/千与千寻.jpg",
     "otherName": "",
-    "otherNames": "/ 神隐少女(台)  /  千与千寻的神隐"
+    "otherNames": "/\u00a0神隐少女(台)  /  千与千寻的神隐"
   },
   {
     "name": "美丽人生",
