@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>豆瓣电影Top10数据展示</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Microsoft YaHei', sans-serif;
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+    }
+
+    .header {
+      background: #ff6b81;
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      opacity: 0.8;
+      font-size: 1.1em;
+    }
+
+    .controls {
+      background: #ff8fab;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .btn {
+      background: #ff6b81;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 0 10px;
+      font-size: 14px;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background: #ff5252;
+    }
+
+    .btn-refresh {
+      background: #ff4081;
+    }
+
+    .btn-refresh:hover {
+      background: #f50057;
+    }
+
+    .status-bar {
+      background: #f8f9fa;
+      padding: 10px 20px;
+      border-bottom: 1px solid #e9ecef;
+      font-size: 14px;
+      color: #6c757d;
+    }
+
+    .charts-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .chart-box {
+      background: #fff0f5;
+      border-radius: 10px;
+      padding: 10px;
+      height: 500px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .chart-container {
+      width: 80%;
+      height: 60%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .movie-list {
+      padding: 20px;
+    }
+
+    .movie-item {
+      display: flex;
+      align-items: center;
+      background: #f8f9fa;
+      margin: 10px 0;
+      padding: 15px;
+      border-radius: 8px;
+      transition: transform 0.2s;
+    }
+
+    .movie-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .movie-poster {
+      width: 80px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 5px;
+      margin-right: 20px;
+    }
+
+    .movie-info {
+      flex: 1;
+    }
+
+    .movie-title {
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #2c3e50;
+      margin-bottom: 5px;
+    }
+
+    .movie-score {
+      color: #e74c3c;
+      font-size: 1.1em;
+      font-weight: bold;
+    }
+
+    .movie-quote {
+      color: #7f8c8d;
+      font-style: italic;
+      margin-top: 5px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 50px;
+      color: #7f8c8d;
+    }
+
+    .error {
+      text-align: center;
+      padding: 50px;
+      color: #e74c3c;
+      background: #ffeaa7;
+      margin: 20px;
+      border-radius: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .charts-container {
+        grid-template-columns: 1fr;
+      }
+
+      .movie-item {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .movie-poster {
+        margin-right: 0;
+        margin-bottom: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🎬 豆瓣电影Top10数据展示</h1>
+      <p>基于Node.js爬虫 + ECharts可视化</p>
+    </div>
+
+    <div class="controls">
+      <button class="btn btn-refresh" onclick="fetchData()">🔄 刷新数据</button>
+      <button class="btn" onclick="window.location.href='/admin'">⚙️ 管理页面</button>
+    </div>
+
+    <div class="status-bar" id="statusBar">
+      正在检查数据状态...
+    </div>
+
+    <div id="loading" class="loading" style="display: none;">
+      <h2>正在加载数据...</h2>
+    </div>
+
+    <div id="error" class="error" style="display: none;">
+      <h2>数据加载失败</h2>
+      <p id="errorMessage"></p>
+      <button class="btn btn-refresh" onclick="fetchData()">点击重试</button>
+    </div>
+
+    <div id="content" style="display: none;">
+      <div class="charts-container">
+        <div class="chart-box">
+          <h3 style="text-align: center; margin-bottom: 10px; color: #ff6b81; font-size: 18px;">电影评分分布</h3>
+          <div class="chart-container">
+            <div id="scoreChart" style="width: 100%; height: 100%;"></div>
+          </div>
+        </div>
+        <div class="chart-box">
+          <h3 style="text-align: center; margin-bottom: 10px; color: #ff6b81; font-size: 18px;">高评分电影占比</h3>
+          <div class="chart-container">
+            <div id="rankingChart" style="width: 100%; height: 100%;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="movie-list">
+        <h2 style="text-align: center; margin: 20px 0; color: #2c3e50;">🎥 电影详情列表</h2>
+        <div id="movieList"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+  <script>
+    // 初始化图表
+    let scoreChart, rankingChart;
+
+    // 页面加载完成后初始化
+    document.addEventListener('DOMContentLoaded', function () {
+      setTimeout(() => {
+        // 确保容器有正确的尺寸
+        const scoreChartElement = document.getElementById('scoreChart');
+        const rankingChartElement = document.getElementById('rankingChart');
+
+        // 设置固定尺寸
+        scoreChartElement.style.width = '100%';
+        scoreChartElement.style.height = '400px';
+        rankingChartElement.style.width = '100%';
+        rankingChartElement.style.height = '400px';
+
+        scoreChart = echarts.init(scoreChartElement);
+        rankingChart = echarts.init(rankingChartElement);
+        checkStatus();
+        fetchData();
+      }, 100);
+    });
+
+    // 检查数据状态
+    async function checkStatus() {
+      try {
+        const response = await fetch('/api/status');
+        const data = await response.json();
+
+        if (data.hasData) {
+          document.getElementById('statusBar').innerHTML =
+            `当前有 ${data.movieCount} 条数据，最后更新: ${new Date(data.lastUpdated).toLocaleString()}`;
+        } else {
+          document.getElementById('statusBar').innerHTML = '暂无数据，请先更新数据';
+        }
+      } catch (error) {
+        document.getElementById('statusBar').innerHTML = '状态检查失败';
+      }
+    }
+
+    // 前端获取后端数据
+    const fetchData = async () => {
+      document.getElementById('loading').style.display = 'block';
+      document.getElementById('content').style.display = 'none';
+      document.getElementById('error').style.display = 'none';
+
+      try {
+        const response = await fetch('/api/movies');
+        const data = await response.json();
+
+        if (data.success) {
+          const movies = data.data;
+          console.log('从后端获取到的电影数据:', movies);
+          updateCharts(movies);
+          updateMovieList(movies);
+          checkStatus();
+        } else {
+          showError(data.error);
+        }
+      } catch (error) {
+        showError('网络请求失败: ' + error.message);
+      } finally {
+        document.getElementById('loading').style.display = 'none';
+      }
+    };
+
+    // 显示错误
+    function showError(message) {
+      document.getElementById('error').style.display = 'block';
+      document.getElementById('errorMessage').textContent = message;
+    }
+
+    // 更新图表
+    function updateCharts(movies) {
+      document.getElementById('content').style.display = 'block';
+
+      // 准备评分图表数据
+      const scoreOption = {
+        tooltip: {
+          trigger: 'axis',
+          formatter: '{b}: {c}分'
+        },
+        xAxis: {
+          type: 'category',
+          data: movies.map(movie => movie.name.split('/')[0]),
+          axisLabel: { rotate: 45 }
+        },
+        yAxis: {
+          type: 'value',
+          name: '评分',
+          min: 8,
+          max: 10
+        },
+        series: [{
+          data: movies.map(movie => parseFloat(movie.score)),
+          type: 'bar',
+          itemStyle: {
+            color: function (params) {
+              const score = params.data;
+              return score >= 9.5 ? '#e74c3c' :
+                score >= 9.0 ? '#3498db' : '#f39c12';
+            }
+          }
+        }]
+      };
+
+      // 准备高评分电影占比图表数据
+      const highScoreMovies = movies.filter(movie => parseFloat(movie.score) > 9.5);
+      const highScoreCount = highScoreMovies.length;
+      const otherCount = movies.length - highScoreCount;
+
+      const rankingOption = {
+        tooltip: {
+          trigger: 'item',
+          formatter: '{a} <br/>{b}: {c}部 ({d}%)'
+        },
+        series: [{
+          name: '电影数量',
+          type: 'pie',
+          radius: ['40%', '70%'],
+          data: [
+            {
+              value: highScoreCount,
+              name: '评分>9.5'
+            },
+            {
+              value: otherCount,
+              name: '评分≤9.5'
+            }
+          ],
+          itemStyle: {
+            color: function (params) {
+              return params.dataIndex === 0 ? '#ff6b81' : '#f39c12';
+            }
+          },
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+          }
+        }]
+      };
+
+      // 更新图表
+      scoreChart.setOption(scoreOption);
+      rankingChart.setOption(rankingOption);
+    }
+
+    // 更新电影列表
+    function updateMovieList(movies) {
+      const movieList = document.getElementById('movieList');
+      movieList.innerHTML = movies.map(movie => {
+        // 使用本地图片路径
+        // 使用本地图片路径
+        // 使用豆瓣电影的原始封面URL
+        const localImagePath = movie.coverUrl || '默认图片';
+        return `
+        <div class="movie-item">
+          <img src="${localImagePath}" alt="${movie.name}" class="movie-poster" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgODAgMTIwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSI4MCIgaGVpZ2h0PSIxMjAiIGZpbGw9IiNlZGVkZWQiLz48dGV4dCB4PSI0MCIgeT0iNjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5OTk5OTkiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMiI+5Zu+54mHPC90ZXh0Pjwvc3ZnPg=='" />
+          <div class="movie-info">
+            <div class="movie-title">${movie.name}</div>
+            <div class="movie-score" style="color: #ff6b81;">⭐ 评分: ${movie.score}</div>
+            <div>🏆 排名: 第${movie.ranking}名</div>
+            ${movie.quote ? `<div class="movie-quote">"${movie.quote}"</div>` : ''}
+            ${movie.otherNames ? `<div style="color: #7f8c8d; margin-top: 5px;">别名: ${movie.otherNames}</div>` : ''}
+          </div>
+        </div>
+        `;
+      }).join('');
+    }
+
+    // 窗口大小变化时重绘图表
+    window.addEventListener('resize', function () {
+      if (scoreChart) {
+        const scoreChartElement = document.getElementById('scoreChart');
+        scoreChartElement.style.height = '400px';
+        scoreChart.resize();
+      }
+      if (rankingChart) {
+        const rankingChartElement = document.getElementById('rankingChart');
+        rankingChartElement.style.height = '400px';
+        rankingChart.resize();
+      }
+    });
+  </script>
+</body>
+
+</html>

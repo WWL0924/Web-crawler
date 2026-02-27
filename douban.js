@@ -35,41 +35,13 @@ class Movie {
 var log = console.log.bind(console)
 
 
-//从html字符串中逐个获取数据
-var movieFromDiv = (div) => {
-    var e = cheerio.load(div)
-    let movies = []
-    // log('----------', e('.rating_num').text().slice(1 * 3, 1 * 3 + 3), '------------')
-
-
-    //怎么找到第几个呢
-    for (let i = 0; i < 10; i++) {
-        var movie = new Movie()
-        movie.name = e('.title').text().split('/')[i] //名字
-        movie.score = e('.rating_num').text().slice(i * 3, i * 3 + 3) //评分
-        let tip = 2 * i + 1
-        movie.quote = e('.quote').text().split('\n')[tip] //引用
-
-        var pic = e('.pic')
-        movie.ranking = pic.find('em').text()[i] //排名
-        //这里图片地址 要找到相应的地址
-        movie.coverUrl = pic.find('img').eq(i).attr('src')
-
-        let other = e('.other').eq(i).text()
-        movie.otherNames = other
-        movies.push(movie)
-    }
-    console.log('最终爬到的个数', movies.length);
-
-    return movies
-}
-
 //url解析成html字符串
 var cachedUrl = (url) => {
-    // var cacheFile = 'cached_html' + url.split('?')[1] + '.html'
-    var cacheFile = 'cached_html' + '豆瓣电影' + '.html'
+    var cacheFile = 'cached_html' + url.split('/')[1] + '.html'
+    console.log('文件名', url.split('/')[1])
 
     var exists = fs.existsSync(cacheFile)
+    //这里如果缓存文件存在优先读取缓存文件 这已经达到了啊
     if (exists) {
         var data = fs.readFileSync(cacheFile)
         return data
@@ -82,6 +54,50 @@ var cachedUrl = (url) => {
         fs.writeFileSync(cacheFile, body) //同步
         return body
     }
+}
+
+
+var movieFromDiv = (div) => {
+    var e = cheerio.load(div)
+    let movies = []
+
+    // 选择所有电影项
+    var movieItems = e('.grid_view > li')
+
+    // 遍历每个电影项
+    movieItems.each((index, item) => {
+        // 只取前10个
+        if (index >= 10) return false
+
+        var movie = new Movie()
+        var $item = e(item) // 电影项 转换为 Cheerio 元素
+
+        // 提取排名
+        movie.ranking = $item.find('.pic em').text()
+
+        // 提取标题
+        var title = $item.find('.title').first().text()
+        var originalTitle = $item.find('.title').eq(1).text()
+        movie.name = title + (originalTitle ? ' ' + originalTitle : '')
+
+        // 提取评分
+        movie.score = $item.find('.rating_num').text()
+
+        // 提取引用
+        movie.quote = $item.find('.quote span').text()
+
+        // 提取封面图片
+        movie.coverUrl = $item.find('.pic img').attr('src')
+
+        // 提取其他名称
+        var other = $item.find('.other').text()
+        movie.otherNames = other ? other.trim() : ''
+
+        movies.push(movie)
+    })
+
+    console.log('最终爬到的个数', movies.length)
+    return movies
 }
 
 
@@ -112,21 +128,24 @@ var downloadCovers = (movies) => {
     }
 }
 
-var __main = () => {
-    // 主函数
+// 专门爬取前10条电影数据的函数
+var crawlTop10Movies = () => {
     var movies = []
-    // var url = `https://movie.douban.com/top250?start=${start}&filter=`
     let url = `https://movie.douban.com/top250`
-    //这里怎么确定爬的是第几个呢
 
+    console.log('开始爬取豆瓣电影Top10...')
     var string = cachedUrl(url)
-    //这里逐个
     movies = movieFromDiv(string)
 
+    // 只取前10条
+    var top10Movies = movies.slice(0, 10)
 
-    // log('最终爬取的数据movies', movies)
-    saveMovie(movies)
-    downloadCovers(movies)
+    console.log(`成功爬取 ${top10Movies.length} 条电影数据`)
+    saveMovie(top10Movies)
+    downloadCovers(top10Movies)
+
+    return top10Movies
 }
 
-__main()
+//导出这个函数
+module.exports = { crawlTop10Movies }

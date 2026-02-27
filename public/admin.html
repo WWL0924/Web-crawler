@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <title>数据管理</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Microsoft YaHei', sans-serif;
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+    }
+
+    .header {
+      background: #ff6b81;
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+
+    .content {
+      padding: 30px;
+    }
+
+    .status {
+      margin: 20px 0;
+      padding: 20px;
+      background: #fff0f5;
+      border-radius: 10px;
+      border-left: 4px solid #ff6b81;
+    }
+
+    .controls {
+      text-align: center;
+      margin: 30px 0;
+    }
+
+    .btn {
+      background: #ff6b81;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 0 10px;
+      font-size: 16px;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background: #ff5252;
+    }
+
+    .btn-primary {
+      background: #ff4081;
+    }
+
+    .btn-primary:hover {
+      background: #f50057;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 20px;
+      color: #ff6b81;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🎬 豆瓣电影数据管理</h1>
+      <p>数据更新和状态管理</p>
+    </div>
+    <div class="content">
+      <div id="status" class="status">
+        <div class="loading">加载中...</div>
+      </div>
+      <div class="controls">
+        <button class="btn btn-primary" onclick="updateData()">🔄 更新数据</button>
+        <button class="btn" onclick="window.location.href='/'">📊 查看展示</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function loadStatus() {
+      const response = await fetch('/api/status');
+      const data = await response.json();
+
+      if (data.hasData) {
+        document.getElementById('status').innerHTML =
+          `<div>当前有 <strong style="color: #ff6b81;">${data.movieCount}</strong> 条数据</div><div>最后更新: ${new Date(data.lastUpdated).toLocaleString()}</div>`;
+      } else {
+        document.getElementById('status').innerHTML =
+          `<div style="color: #ff6b81;">暂无数据，请点击更新按钮</div>`;
+      }
+    }
+
+    async function updateData() {
+      const statusDiv = document.getElementById('status');
+      statusDiv.innerHTML = `<div class="loading">正在更新数据...</div>`;
+
+      try {
+        const response = await fetch('/api/update', { method: 'POST' });
+        const data = await response.json();
+
+        if (data.success) {
+          alert('🎉 ' + data.message);
+          loadStatus();
+        } else {
+          alert('更新失败: ' + data.error);
+          loadStatus();
+        }
+      } catch (error) {
+        alert('网络请求失败: ' + error.message);
+        loadStatus();
+      }
+    }
+
+    loadStatus();
+  </script>
+</body>
+
+</html>
