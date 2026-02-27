@@ -292,12 +292,10 @@
       try {
         // const response = await fetch('/api/movies'); 
         const response = await fetch('./douban.txt'); //静态部署
-        const data = await response.json();
+        const movies = await response.json();
 
-        //这里也要改
-        if (data.success) {
-          const movies = data.data;
-          console.log('从后端获取到的电影数据:', movies);
+        if (movies && movies.length > 0) {
+          console.log('从本地文件获取到的电影数据:', movies);
 
           // 先更新电影列表（包含图片）
           updateMovieList(movies);
@@ -315,10 +313,10 @@
           document.getElementById('content').style.display = 'block';
           checkStatus();
         } else {
-          showError(data.error);
+          showError('暂无电影数据');
         }
       } catch (error) {
-        showError('网络请求失败: ' + error.message);
+        showError('数据加载失败: ' + error.message);
       } finally {
         document.getElementById('loading').style.display = 'none';
       }
