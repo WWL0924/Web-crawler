@@ -102,8 +102,8 @@
     }
 
     .chart-container {
-      width: 80%;
-      height: 60%;
+      width: 100%;
+      height: 400px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -255,9 +255,9 @@
 
         // 设置固定尺寸
         scoreChartElement.style.width = '100%';
-        scoreChartElement.style.height = '400px';
+        scoreChartElement.style.height = '100%';
         rankingChartElement.style.width = '100%';
-        rankingChartElement.style.height = '400px';
+        rankingChartElement.style.height = '100%';
 
         scoreChart = echarts.init(scoreChartElement);
         rankingChart = echarts.init(rankingChartElement);
