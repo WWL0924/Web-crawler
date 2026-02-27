@@ -269,7 +269,7 @@
     // 检查数据状态
     async function checkStatus() {
       try {
-        const response = await fetch('/api/status');
+        const response = await fetch('./douban.txt'); //静态部署
         const data = await response.json();
 
         if (data.hasData) {
@@ -291,7 +291,7 @@
 
       try {
         // const response = await fetch('/api/movies'); 
-        const response = await fetch('./douban.json'); //静态部署
+        const response = await fetch('./douban.txt'); //静态部署
         const data = await response.json();
 
         if (data.success) {
